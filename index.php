@@ -1,10 +1,16 @@
 <?php include('server.php')
 
 ?>
-
-<table>
-	<tr>
-		debug 
-		<input type="text" name="ciao">
-	</tr>
-</table>
+<html>
+	<head>
+  		<link href="./style.css" rel="stylesheet" type="text/css">
+ 	</head>
+ 	<body>
+		<table>
+			<tr>
+				debug 
+				<input type="text" name="ciao">
+			</tr>
+		</table>
+	</body>
+</html>
