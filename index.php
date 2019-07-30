@@ -4,7 +4,7 @@
 
 <table>
 	<tr>
-		ciao 
+		debug 
 		<input type="text" name="ciao">
 	</tr>
 </table>
