@@ -1,5 +1,5 @@
-<?php
-	
+<?php include('server.php')
+
 ?>
 
 <table>
