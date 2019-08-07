@@ -1,14 +1,16 @@
 <?php include('server.php');
 
-	if(isset($_POST['invia'])) //premendo invia
-	{
-		display();
-	} 
+	//if(isset($_POST['invia'])) //premendo invia
+	//{
 
-	function display(){
-		echo "hello ".$_POST["ciao"]; //stampa hello + contenuto textbox
+	//	display();
+	//} 
 
-	}
+	//function display(){
+		//$username = $_POST['ciao'];
+		//echo "hello ".$username; //stampa hello + contenuto textbox
+
+	//}
 ?>
 <html>
 	<head>
@@ -19,12 +21,12 @@
     	Javascript is not enabled. Please, enable it!
 		</noscript>
 		<table>
-			<form method="post" action="index.php"> <!-- la pagina php da chiamare (esegue refresh) -->
+			<form method="post" action="register.php"> <!-- la pagina php da chiamare (esegue refresh) -->
 				<tr>
 					debug 
-					<input type="text" name="ciao">
+					<input type="text" name="ciao" default="">
 					<div>
-						<input type="submit" name="invia" value="bottone submit">
+						<input type="submit" name="invia" value="Registrati">
 						<br>
 						<input type="button" type="submit" name="invia" value="bottone" onclick="myFunction()">
 					</div>
