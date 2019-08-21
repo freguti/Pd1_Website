@@ -1,4 +1,16 @@
 html, body{
-    color:#b20000;
+    color: blue;
     background-color:white;
 }
+
+.weak{
+color: red;
+}
+
+.medium{
+    color: yellow;
+    }
+
+.strong{
+    color: green;
+    }

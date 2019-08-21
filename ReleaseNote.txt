@@ -1,3 +1,4 @@
 release note
 
 0.0.0.1 -> front end della registrazione ok, riconosce strong,medium e weak e fa il submit solo se è strong.
+0.0.0.2 -> front end della registrazione mi inserisce in real time la forza della psw colorata grazie ad alberto

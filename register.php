@@ -17,6 +17,8 @@
           <div class="form-group">
             <label for="password">Insert Password:</label>
             <input type="password" class="form-control" name="password" id="password" required />
+			<div id="strength">
+			</div>
           </div>
           <div class="form-group">
 		  	<button id="btnRegister" type="submit" class="btn btn-primary" name="register_user">Register</button>
@@ -51,7 +53,7 @@
 						result = false;
 				}
 			}
-			alert(strength);
+			
 			return result;
 			}
 			/*
@@ -68,7 +70,37 @@
 			});
 			return true;
 		}*/
-	
+		$("#password").on('change keyup paste mouseup',function(){
+			var psw =$("#password").val();	
+			if(psw.length < 3){
+				var strength = "weak";
+				$("#strength").html("weak");
+				$("#strength").removeClass('strong');
+				$("#strength").removeClass('medium');
+				$("#strength").addClass('weak');
+			}
+			else
+			{
+				var special_chars = psw.replace(/[A-Za-z0-9]/g, '');
+				var numbers = psw.replace(/[^0-9]/g, '');
+				if(special_chars.length >= 2 && numbers.length >= 1)
+				{
+					var strength = "strong";
+					$("#strength").html("strong");
+					$("#strength").removeClass('weak');
+					$("#strength").removeClass('medium');
+					$("#strength").addClass('strong');
+				}
+				else
+				{
+					var strength = "medium";	
+					$("#strength").html("medium");
+					$("#strength").removeClass('weak');
+					$("#strength").removeClass('strong');
+					$("#strength").addClass('medium');
+				}
+			}
+		});
 	
 	</script>
 </html>
