@@ -16,10 +16,10 @@
           </div>
           <div class="form-group">
             <label for="password">Insert Password:</label>
-            <input type="password" class="form-control" name="password" id="password" minlength="3" required />
+            <input type="password" class="form-control" name="password" id="password" required />
           </div>
           <div class="form-group">
-            <button id="register" type="submit" class="btn btn-primary" name="register_user">Register</button>
+		  	<button id="btnRegister" type="submit" class="btn btn-primary" name="register_user">Register</button>
           </div>
           <span id="error"></span>
         </form>
@@ -31,15 +31,44 @@
 		 function check_psw(){
 			var psw =$("#password").val();
 			alert(psw);
-			var regexp_psw = new RegExp(/^[A-Za-z0-9]+$/);
-			if(regexp_psw.test(psw) || psw.length < 3){
-			//$("#error").html("The password must contain at least three characters, one of which is not alphanumeric");
-			//$('#error').fadeIn().delay(2000).fadeOut();
-			alert("NO");
-			return false;
+			var result = false;
+			if(psw.length < 3){
+				var strength = "weak";
+				result = false;
 			}
+			else
+			{
+				var special_chars = psw.replace(/[A-Za-z0-9]/g, '');
+				var numbers = psw.replace(/[^0-9]/g, '');
+				if(special_chars.length >= 2 && numbers.length >= 1)
+				{
+					var strength = "strong";
+					result = true;
+				}
+				else
+				{
+						var strength = "medium";	
+						result = false;
+				}
+			}
+			alert(strength);
+			return result;
+			}
+			/*
+			$("#btnRegister").click(function(){
+			$.ajax({
+				url: "server.php",
+				data: {postfunctions: "user_register"},
+				type: "POST"
+			}).done(function(data){
+				if(data == "-1"){
+					alert("session expired");
+					window.location.href = "index.php";
+				}
+			});
 			return true;
-		}
+		}*/
+	
 	
 	</script>
 </html>

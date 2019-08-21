@@ -17,7 +17,7 @@
   		<link href="./style.css" rel="stylesheet" type="text/css">
  	</head>
  	<body>
-		 <noscript>
+		<noscript>
     	Javascript is not enabled. Please, enable it!
 		</noscript>
 		<table>
