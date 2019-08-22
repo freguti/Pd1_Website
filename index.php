@@ -1,16 +1,5 @@
 <?php include('server.php');
-
-	//if(isset($_POST['invia'])) //premendo invia
-	//{
-
-	//	display();
-	//} 
-
-	//function display(){
-		//$username = $_POST['ciao'];
-		//echo "hello ".$username; //stampa hello + contenuto textbox
-
-	//}
+	checkHttps();
 ?>
 <html>
 	<head>

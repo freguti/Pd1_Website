@@ -1,5 +1,5 @@
 <?php include('server.php');
-
+	checkHttps();
 ?>
 
 <html>
@@ -11,6 +11,9 @@
 
  	<body>
 	 <?php include('header.php'); ?>
+	 <noscript>
+    	Javascript is not enabled. Please, enable it!
+	</noscript>
 	 <div class="container-fluid mycontainer"> 
 	 <div class="row myrow">
 	 <?php include('navbar.php'); ?>
@@ -19,13 +22,17 @@
 	 <form method="post" onsubmit="return check_psw()">
 	 
           <div class="form-group">
-            <label for="email">Insert Email:</label>
+            <label for="email">Inserisci Email:</label>
             <input type="text" class="form-control" name="email" id="email" title="insert email" required />
           </div>
           <div class="form-group">
-            <label for="password">Insert Password:</label>
+            <label for="password">Inserisci Password:</label>
             <input type="password" class="form-control" name="password" id="password" required />
 			<div id="strength">
+			</div>
+			<label for="password2">Conferma Password:</label>
+            <input type="password" class="form-control" name="password2" id="password2" required />
+			<div id="ConfirmPassword">
 			</div>
           </div>
           <div class="form-group">
@@ -41,6 +48,7 @@
 	<script type="text/javascript">
 		 function check_psw(){
 			var psw =$("#password").val();
+			var confirm = $('#password2').val;
 			alert(psw);
 			var result = false;
 			if(psw.length < 3){
@@ -54,7 +62,14 @@
 				if(special_chars.length >= 2 && numbers.length >= 1)
 				{
 					//var strength = "strong";
-					result = true;
+					
+					if(psw != confirm)
+					{
+						$('#ConfirmPassword').html("Le password devono combaciare!");
+						result = false;
+					}
+					else
+						result = true;
 				}
 				else
 				{

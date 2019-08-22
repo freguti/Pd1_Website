@@ -1,9 +1,16 @@
 <?php
-$db = dbConnection();
+
 //mysqli_query($db, 'INSERT INTO users VALUES ("simone","ciao")'); FUNZIONA
 
 if(isset($_POST['register_user'])){
-	header('location: index.php');
+	$db = dbConnection();
+	//check for sql-injection
+	$email = mysqli_real_escape_string($db, $_POST['email']);
+	$password =  $_POST['password'];
+	$confirm = $_POST['password2'];
+
+	mysqli_close($db);
+	header('location: index.php'); //redirect a index.php
 }
 
 /*
@@ -33,5 +40,14 @@ function dbConnection()
     
     return $db;
 }
-	
+
+
+function checkHttps(){ //da mettere nell'intestazione php di ogni pagina
+	if (!isset($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] == 'off') {
+        header("location: https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+		exit();
+	}
+}
+
+
 ?>

@@ -1,5 +1,7 @@
 release note
 
-0.0.0.1 -> front end della registrazione ok, riconosce strong,medium e weak e fa il submit solo se è strong.
-0.0.0.2 -> front end della registrazione mi inserisce in real time la forza della psw colorata grazie ad alberto
-0.0.0.3 -> creato un header, aggiunto bootstrap (su git ignore), aggiunta la navbar laterale
+0.0.0.1 ->  front end della registrazione ok, riconosce strong,medium e weak e fa il submit solo se è strong.
+0.0.0.2 ->  front end della registrazione mi inserisce in real time la forza della psw colorata grazie ad alberto
+0.0.0.3 ->  creato un header, aggiunto bootstrap (su git ignore), aggiunta la navbar laterale
+0.0.0.4 ->  aggiunta la conferma password, centrata la pagina di registrazione con il titolo, aggiunto controllo JS in register.
+            aggiunta funzione https nel server
