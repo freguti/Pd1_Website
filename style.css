@@ -8,9 +8,39 @@ color: red;
 }
 
 .medium{
-    color: yellow;
-    }
+    color: orange;
+}
 
 .strong{
     color: green;
-    }
+}
+
+.mydivform{
+    margin-left:auto;
+    margin-right:auto;
+    text-align:center;
+}
+
+.titleheader{
+    margin-left:auto;
+    margin-right:auto;
+    COLOR: WHITE;
+}
+
+nav{
+    margin-top:auto;
+    margin-bottom:auto;
+}
+
+.mycontainer{
+    height: -webkit-fill-available;
+}
+
+.mynavbar{
+    background-color:grey;
+    height: 100%;
+}
+
+.myrow{
+    height: inherit;
+}

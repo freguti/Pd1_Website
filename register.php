@@ -4,12 +4,20 @@
 
 <html>
 	<head>
-  		<link href="./style.css" rel="stylesheet" type="text/css">
+		  <link href="./style.css" rel="stylesheet" type="text/css">
+		  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 		  <script src= "http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript"> </script>
  	</head>
 
  	<body>
+	 <?php include('header.php'); ?>
+	 <div class="container-fluid mycontainer"> 
+	 <div class="row myrow">
+	 <?php include('navbar.php'); ?>
+
+	 <div class="col-md-4 mydivform">
 	 <form method="post" onsubmit="return check_psw()">
+	 
           <div class="form-group">
             <label for="email">Insert Email:</label>
             <input type="text" class="form-control" name="email" id="email" title="insert email" required />
@@ -23,9 +31,10 @@
           <div class="form-group">
 		  	<button id="btnRegister" type="submit" class="btn btn-primary" name="register_user">Register</button>
           </div>
-          <span id="error"></span>
         </form>
-		     
+		</div> 
+	</div>	 
+	</div>  
     </body>
 
     
@@ -35,7 +44,7 @@
 			alert(psw);
 			var result = false;
 			if(psw.length < 3){
-				var strength = "weak";
+				//var strength = "weak";
 				result = false;
 			}
 			else
@@ -44,12 +53,12 @@
 				var numbers = psw.replace(/[^0-9]/g, '');
 				if(special_chars.length >= 2 && numbers.length >= 1)
 				{
-					var strength = "strong";
+					//var strength = "strong";
 					result = true;
 				}
 				else
 				{
-						var strength = "medium";	
+						//var strength = "medium";	
 						result = false;
 				}
 			}
@@ -73,8 +82,7 @@
 		$("#password").on('change keyup paste mouseup',function(){
 			var psw =$("#password").val();	
 			if(psw.length < 3){
-				var strength = "weak";
-				$("#strength").html("weak");
+				$("#strength").html("Debole");
 				$("#strength").removeClass('strong');
 				$("#strength").removeClass('medium');
 				$("#strength").addClass('weak');
@@ -85,16 +93,14 @@
 				var numbers = psw.replace(/[^0-9]/g, '');
 				if(special_chars.length >= 2 && numbers.length >= 1)
 				{
-					var strength = "strong";
-					$("#strength").html("strong");
+					$("#strength").html("Robusta");
 					$("#strength").removeClass('weak');
 					$("#strength").removeClass('medium');
 					$("#strength").addClass('strong');
 				}
 				else
 				{
-					var strength = "medium";	
-					$("#strength").html("medium");
+					$("#strength").html("Media");
 					$("#strength").removeClass('weak');
 					$("#strength").removeClass('strong');
 					$("#strength").addClass('medium');
