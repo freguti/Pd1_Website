@@ -1,5 +1,5 @@
 <?php include('server.php');
-	checkHttps();
+	//checkHttps();
 ?>
 
 <html>
@@ -48,12 +48,17 @@
 	<script type="text/javascript">
 		 function check_psw(){
 			var psw =$("#password").val();
-			var confirm = $('#password2').val;
+			var confirm = $('#password2').val();
 			alert(psw);
 			var result = false;
 			if(psw.length < 3){
 				//var strength = "weak";
 				result = false;
+				if(psw != confirm)
+					$('#ConfirmPassword').html("Le password devono combaciare!");
+				else
+					$('#ConfirmPassword').html("");
+				
 			}
 			else
 			{
@@ -69,12 +74,19 @@
 						result = false;
 					}
 					else
+					{
 						result = true;
+						$('#ConfirmPassword').html("");
+					}
 				}
 				else
 				{
 						//var strength = "medium";	
-						result = false;
+					result = false;
+					if(psw != confirm)
+						$('#ConfirmPassword').html("Le password devono combaciare!");
+					else
+					$('#ConfirmPassword').html("");
 				}
 			}
 			
