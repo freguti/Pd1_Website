@@ -20,7 +20,7 @@
 
 	 <div class="col-md-4 mydivform">
 	 <form method="post" onsubmit="return check_psw()">
-	 
+		 <?php include('errors.php') ?>
           <div class="form-group">
             <label for="email">Inserisci Email:</label>
             <input type="email" class="form-control" name="email" id="email" title="insert email" required />
@@ -49,7 +49,7 @@
 		 function check_psw(){
 			var psw =$("#password").val();
 			var confirm = $('#password2').val();
-			alert(psw);
+			//alert(psw);
 			var result = false;
 			if(psw.length < 3){
 				//var strength = "weak";

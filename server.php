@@ -23,13 +23,37 @@ if(isset($_POST['register_user'])){
 	{
 		try{
 			// da fare l'inserimento (lock tabella, controllo presenza, inserisco, unlock )
+			$password = md5($password);
+			mysqli_autocommit($db, false);
+			mysqli_query($db, "SELECT * FROM users FOR UPDATE OF users");
+			
+			$check_user_query = "SELECT * FROM users WHERE email='$email' LIMIT 1";
+			$user = mysqli_fetch_assoc(mysqli_query($db, $check_user_query));
+			if($user){  //se esiste già
+				array_push($errors, "email already registered");
+				return false;
+			}
+			$query = "INSERT INTO users (email, password) VALUES ('$email', '$password')";
+			if(!mysqli_query($db, $query)){
+				throw new Exception("Error Processing Request", 1);
+			}
+			if(!mysqli_commit($db)){
+				throw Exception("Commit failed");
+			}
+
+			//todo: nuova sessione + cookies
+
+			mysqli_autocommit($db, true);
 			mysqli_close($db);
 			header('location: index.php'); //redirect a index.php
 		}
 		catch (Exception $e)
 		{
-			//rollback
+			mysqli_rollback($db);
+			echo "Rollback ".$e->getMessage();
+			mysqli_autocommit($db, true);
 			mysqli_close($db);
+			return false;
 		}
 	}
 	mysqli_close($db);
