@@ -23,7 +23,7 @@
 	 
           <div class="form-group">
             <label for="email">Inserisci Email:</label>
-            <input type="text" class="form-control" name="email" id="email" title="insert email" required />
+            <input type="email" class="form-control" name="email" id="email" title="insert email" required />
           </div>
           <div class="form-group">
             <label for="password">Inserisci Password:</label>
@@ -92,20 +92,6 @@
 			
 			return result;
 			}
-			/*
-			$("#btnRegister").click(function(){
-			$.ajax({
-				url: "server.php",
-				data: {postfunctions: "user_register"},
-				type: "POST"
-			}).done(function(data){
-				if(data == "-1"){
-					alert("session expired");
-					window.location.href = "index.php";
-				}
-			});
-			return true;
-		}*/
 		$("#password").on('change keyup paste mouseup',function(){
 			var psw =$("#password").val();	
 			if(psw.length < 3){
