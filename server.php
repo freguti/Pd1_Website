@@ -3,8 +3,6 @@ ob_start();
 $errors = array();
 session_start();
 
-//mysqli_query($db, 'INSERT INTO users VALUES ("simone","ciao")'); FUNZIONA
-
 if(isset($_POST['register_user'])){
 	$db = dbConnection();
 	//check for sql-injection
@@ -22,7 +20,6 @@ if(isset($_POST['register_user'])){
 	if(sizeof($errors) == 0)
 	{
 		try{
-			// da fare l'inserimento (lock tabella, controllo presenza, inserisco, unlock )
 			$password = md5($password);
 			mysqli_autocommit($db, false);
 			mysqli_query($db, "SELECT * FROM users FOR UPDATE OF users");
@@ -31,6 +28,8 @@ if(isset($_POST['register_user'])){
 			$user = mysqli_fetch_assoc(mysqli_query($db, $check_user_query));
 			if($user){  //se esiste già
 				array_push($errors, "email already registered");
+				mysqli_autocommit($db, true);
+				mysqli_close($db);
 				return false;
 			}
 			$query = "INSERT INTO users (email, password) VALUES ('$email', '$password')";
@@ -40,12 +39,13 @@ if(isset($_POST['register_user'])){
 			if(!mysqli_commit($db)){
 				throw Exception("Commit failed");
 			}
-
-			//todo: nuova sessione + cookies
-
+			$_SESSION['email'] = $email;
+			$_SESSION['time'] = time();
+			setcookie("user", $email, time() + 120, "/");
+			$_SESSION['success'] = "You are now logged in";
 			mysqli_autocommit($db, true);
 			mysqli_close($db);
-			header('location: index.php'); //redirect a index.php
+			header('location: home.php'); //redirect a index.php
 		}
 		catch (Exception $e)
 		{
@@ -54,6 +54,39 @@ if(isset($_POST['register_user'])){
 			mysqli_autocommit($db, true);
 			mysqli_close($db);
 			return false;
+		}
+	}
+	mysqli_close($db);
+}
+
+
+if(isset($_POST['login_btn'])){
+	$db = dbConnection();
+	//check for sql-injection
+	$email = mysqli_real_escape_string($db, $_POST['email']);
+	$password =  $_POST['password'];
+	if(empty($email)){ array_push($errors, "Email is required"); }
+	if(!filter_var($email, FILTER_VALIDATE_EMAIL)){ array_push($errors, "Email is not valid");	} //gli errori verranno gestiti dalla pagina che li genera
+	if(empty($password)){ array_push($errors, "Password required"); } //array push insert in tail of array
+	
+	if(sizeof($errors) == 0)
+	{
+		$password = md5($password);
+		mysqli_query($db, "SELECT * FROM users FOR UPDATE OF users"); //non so nemmeno se c'è bisogno di loccare in sola lettura, nessuno mi cambia i record
+		$select_user = "SELECT * FROM users WHERE email='$email' AND password='$password' ";
+
+		$results = mysqli_query($db, $select_user);
+		if(mysqli_num_rows($results) == 1){ 
+			$_SESSION['email'] = $email;
+			$_SESSION['time'] = time();
+			setcookie("user", $email, time() + 120, "/");
+			$_SESSION['success'] = "You are now logged in";
+			mysqli_close($db);
+			header('location: home.php'); //redirect a index.php
+		}
+		else
+		{
+			array_push($errors, "Wrong email or Password");
 		}
 	}
 	mysqli_close($db);
@@ -94,5 +127,35 @@ function checkHttps(){ //da mettere nell'intestazione php di ogni pagina
 	}
 }
 
+function checkSession(){
+	$start_t = time();
+	$delta_t = 0;
+	$new = false;
+	if (isset($_SESSION['time'])){
+	  $curr_t = $_SESSION['time'];
+	  $delta_t = ($start_t  -$curr_t); //periodo passato senza aggiornare una pagina
+	} else {
+	  $new=true;
+	}
+	if ($new || ($delta_t > 120)) { //distruggo la sessione
+		$_SESSION=array();
+	  if (ini_get("session.use_cookies")) {
+		  $params = session_get_cookie_params();
+			setcookie(session_name(), '', time() - 3600*24, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
+	  }
+	  session_destroy();
+	  return false;
+	} else {
+	  $_SESSION['time']=time(); //aggiorno la sessione per altri 120 secondi
+	}
+	return true;
+  }
+  function checkCookie(){
+	  setcookie("test_cookie", "test", time() + 3600, '/');
+	  if(count($_COOKIE) == 0){
+		  echo "Enable cookies to navigate this site";
+		  exit();
+	  }
+  }
 
 ?>

@@ -45,3 +45,10 @@ nav{
 .myrow{
     height: 100%;
 }
+
+.myelement{
+    color:greenyellow;
+    font-size: 25px;
+    font-style: italic;
+    font-weight: bold;
+}

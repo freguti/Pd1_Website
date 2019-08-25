@@ -1,5 +1,7 @@
 <?php include('server.php');
 	checkHttps();
+	checkCookie();
+	checkSession();	
 ?>
 <html>
 	<head>
@@ -7,13 +9,15 @@
  	</head>
  	<body>
 		<noscript>
+		<div style='margin-left:auto;'>
     	Javascript is not enabled. Please, enable it!
+		</div>
 		</noscript>
 		<table>
 			<form method="post" action="register.php"> <!-- la pagina php da chiamare (esegue refresh) -->
 				<tr>
 					debug 
-					<input type="text" name="ciao" default="">
+					
 					<div>
 						<input type="submit" name="invia" value="Registrati">
 						<br>

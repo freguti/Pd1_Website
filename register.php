@@ -1,5 +1,8 @@
 <?php include('server.php');
-	//checkHttps();
+	checkHttps();
+	checkSession();
+	checkCookie();
+
 ?>
 
 <html>
