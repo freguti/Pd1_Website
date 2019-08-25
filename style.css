@@ -25,7 +25,9 @@ color: red;
 .titleheader{
     margin-left:auto;
     margin-right:auto;
-    color: white;
+    color: pink;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 nav{

@@ -1,6 +1,8 @@
 <?php include('server.php');
-if(!isset($_SESSION['email'])){header("Location: index.php");}
     checkHttps();
+    if(isset($_SESSION['email'])){
+        header('location: home.php');
+      }
     checkSession();
 	checkCookie();
 ?>
@@ -22,7 +24,7 @@ if(!isset($_SESSION['email'])){header("Location: index.php");}
 	 <div class="col-md-4 mydivform">
          <form method="post" action= "login.php">
          <?php include('errors.php') ?>
-
+            logout
 
          </form>
      </div> 
