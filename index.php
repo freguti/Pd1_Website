@@ -62,5 +62,10 @@
 
     
 	<script type="text/javascript">
-
+		$("#cell_01").mouseover(function(){
+  			$("#cell_01").css("background-color", "yellow");
+		});
+		$("#cell_01").mouseleave(function(){
+  			$("#cell_01").css("background-color", "white");
+		});
 	</script>

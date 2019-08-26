@@ -7,3 +7,5 @@ release note
             aggiunta funzione https nel server, la metterò alla fine nelle pagine perchè blocca javascript
 0.0.0.5 ->  eseguiti i controlli delle password lato backend e debuggati, funzionano.
             eseguito inserimento nel db con tutti i controlli e lock funzionanti (register). creata la pagina degli errori
+
+            in teoria devo aggiungere doctype html e in myrow "position:fixed;"
