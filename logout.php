@@ -1,38 +1,9 @@
-<?php include('server.php');
-    checkHttps();
-    if(isset($_SESSION['email'])){
-        header('location: home.php');
-      }
-    checkSession();
-	checkCookie();
+<?php
+include('server.php');
+session_destroy();
+if (ini_get("session.use_cookies")) {
+	$params = session_get_cookie_params();
+ setcookie(session_name(), '', time() - 3600*24, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
+}
+echo 'Hai effettuato il Log-out con successo. <a href="index.php">Home page</a>';
 ?>
-<html>
-	<head>
-		  <link href="./style.css" rel="stylesheet" type="text/css">
-		  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-		  <script src= "http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript"> </script>
- 	</head>
-
- 	<body>
-	 <?php include('header.php'); ?>
-	 <noscript>
-    	Javascript is not enabled. Please, enable it!
-	</noscript>
-	 <div class="container-fluid mycontainer"> 
-	 <div class="row myrow">
-	 <?php include('navbar.php'); ?>
-	 <div class="col-md-4 mydivform">
-         <form method="post" action= "login.php">
-         <?php include('errors.php') ?>
-            logout
-
-         </form>
-     </div> 
-	 </div>	 
-	 </div>  
-    </body>
-
-    <script type="text/javascript">
-
-    </script>
-</html>

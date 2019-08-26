@@ -23,7 +23,7 @@ color: red;
 }
 
 .titleheader{
-    margin-left:auto;
+    margin-left:630px;
     margin-right:auto;
     color: pink;
     font-size: 18px;
@@ -53,4 +53,14 @@ nav{
     font-size: 25px;
     font-style: italic;
     font-weight: bold;
+}
+
+table,tr,td{
+    border: 1px solid black
+}
+
+.my_cell{
+    width: 100px;
+    height:100px;
+    text-align: center;
 }

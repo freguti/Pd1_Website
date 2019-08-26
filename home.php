@@ -1,8 +1,16 @@
 <?php include('server.php');
-if(!isset($_SESSION['email'])){header("Location: index.php");}
     checkHttps();
     checkSession();
 	checkCookie();
+	if(!isset($_SESSION['email'])){header("Location: index.php");}
+	$giorno[0] = 'Lunedì';
+	$giorno[1] = 'Martedì';
+	$giorno[2] = 'Mercoledì';
+	$giorno[3] = 'Giovedì';
+	$giorno[4] = 'Venerdì';
+	$ora_inizio = 8;
+	$ora_fine = 9;
+
 ?>
 <html>
 	<head>
@@ -20,11 +28,32 @@ if(!isset($_SESSION['email'])){header("Location: index.php");}
 	 <div class="row myrow">
 	 <?php include('navbar.php'); ?>
 	 <div class="col-md-4 mydivform">
-         <form method="post" action= "login.php">
-         <?php include('errors.php') ?>
-
-
-         </form>
+		<table>
+			<?php
+			for ($i=0;$i < 10;$i++)
+			{
+				echo "<tr>";
+				
+				for($j=0;$j < 5;$j++)
+				{
+					if ($i == 0)
+					{
+						echo "<td class='my_cell' id='cell_$i$j'> $giorno[$j] </td>";
+					}
+					else
+					{
+						echo "<td class='my_cell' id='cell_$i$j'> dalle $ora_inizio.00 alle $ora_fine.00 </td>";
+						
+					}
+				}
+				if ($i != 0){
+					$ora_inizio++;
+					$ora_fine++;
+				}
+				echo "</tr>";
+			}
+			?>
+		</table>
      </div> 
 	 </div>	 
 	 </div>  
