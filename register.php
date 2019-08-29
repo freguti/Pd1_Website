@@ -123,6 +123,5 @@
 				}
 			}
 		});
-	
-	</script>
+		</script>
 </html>

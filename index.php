@@ -1,6 +1,6 @@
 <?php include('server.php');
-	checkHttps();
-	checkSession();
+	//checkHttps();
+	//checkSession();
 	checkCookie();
 	$giorno[0] = 'Lunedì';
 	$giorno[1] = 'Martedì';
@@ -28,6 +28,7 @@
 	 <?php include('navbar.php'); ?>
 
 	 	<div class="col-md-4 mydivform">
+		 <?php include('errors.php'); ?>
 	 		<table>
 				<?php
 				for ($i=0;$i < 10;$i++)
@@ -38,11 +39,11 @@
 					{
 						if ($i == 0)
 						{
-							echo "<td class='my_cell' id='cell_$i$j'> $giorno[$j] </td>";
+							echo "<td class='my_cell_h' id='cell_$i$j'> $giorno[$j] </td>";
 						}
 						else
 						{
-							echo "<td class='my_cell' id='cell_$i$j'> dalle $ora_inizio.00 alle $ora_fine.00 </td>";
+							echo "<td class='my_cell' id='cell_$i$j'> dalle $ora_inizio.00 alle $ora_fine.00 <div id='div_$i$j' hidden='true'></td>";
 							
 						}
 					}
@@ -62,10 +63,31 @@
 
     
 	<script type="text/javascript">
-		$("#cell_01").mouseover(function(){
-  			$("#cell_01").css("background-color", "yellow");
+		$.ajax({
+			url: "server.php",
+			data: "getcolors",
+			type: "GET"
+		}).done(function(obj){
+			$.each(JSON.parse(obj), function(idx, obj){
+				$('#cell_' + idx).addClass("Booked");
+				$('#cell_' + idx).attr("email" , obj[0]);
+				$('#cell_' + idx).attr("ora_pen" , obj[1]);	
+				$("#div_" + idx).html(obj[0] + " prenotato il: " + obj[1]);
 		});
-		$("#cell_01").mouseleave(function(){
-  			$("#cell_01").css("background-color", "white");
+		$('.Booked').mouseover(function(){
+  			//var email = $(this).attr("email");
+			//var DataOra = $(this).attr("ora_pen");
+			var Cell = $(this).attr("id");
+			Cell = Cell.split("_")[1];
+			$("#div_" + Cell).attr("hidden",false);
 		});
+		$('.Booked').mouseleave(function(){
+			var Cell = $(this).attr("id");
+			Cell = Cell.split("_")[1];
+			$("#div_" + Cell).attr("hidden",true);
+		});
+		});
+
+
+
 	</script>

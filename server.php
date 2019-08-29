@@ -91,6 +91,21 @@ if(isset($_POST['login_btn'])){
 	}
 	mysqli_close($db);
 }
+
+if(isset($_GET['getcolors'])){
+	$db = dbConnection();
+	$query = "SELECT * FROM booking";
+	$result = mysqli_query($db, $query);
+	$patient = array();
+
+		while($record = mysqli_fetch_array($result))
+		{
+			$patient[$record['DataOra']] = [$record['Utente'],$record['DataOraPren']];
+		}
+
+	mysqli_close($db);
+	echo json_encode($patient);
+}
 /*
 non va con l'ajax. forse a volte serve per forza cosi
 
