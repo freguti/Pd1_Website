@@ -104,13 +104,13 @@
 				var SortedCell = $(this).attr("id");
 				sequence = sequence + '_' + SortedCell.split("_")[1] ;
 			});
-			//alert(sequence);
+			alert(sequence);
 			$.ajax({
 				url: "server.php",
 				data: {postfunctions: 'postclick', arguments: sequence },
 				type: "POST"
 			}).done(function(data){
-				sequence = '00';
+				//sequence = '00';
 				alert(data);
 				if(data == '-1'){
 					alert("session expired");
