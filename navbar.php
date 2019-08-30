@@ -7,6 +7,16 @@
       		echo "
             <li class='nav-item'>
               <a href='logout.php' class='myelement'>Logout</a>
+			</li>
+			<li class='nav-item'>
+			  <div>
+			  <a href='#' class='btn btn-primary' id='btnbook'>Prenota selezione</a>
+			  </div>
+			</li>
+			<li class='nav-item'>
+			  <div>
+			  <a href='#' class='btn btn-primary' id='btnerase'>Cancella prenotazione</a>
+			  </div>
             </li>
       		";
     		} else {

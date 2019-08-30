@@ -65,7 +65,7 @@ table,tr,td{
     width: 100px;
     height:100px;
     text-align: center;
-    background-color: red;
+    background-color: green;
 }
 
 .my_cell_h{
@@ -75,5 +75,5 @@ table,tr,td{
 }
 
 .Booked{
-    background-color: green;
+    background-color: red;
 }
