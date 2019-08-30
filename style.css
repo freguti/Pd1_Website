@@ -77,3 +77,11 @@ table,tr,td{
 .Booked{
     background-color: red;
 }
+
+.nav-item{
+    margin-top: 5px;
+}
+
+.wannaBeBooked{
+    background-color: yellow;
+}

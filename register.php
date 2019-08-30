@@ -1,7 +1,11 @@
 <?php include('server.php');
+	checkCookie();
 	checkHttps();
 	checkSession();
-	checkCookie();
+	if(!isset($_SESSION['email'])){
+		header('location: index.php');
+	  }
+	
 
 ?>
 

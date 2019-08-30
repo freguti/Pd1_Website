@@ -1,5 +1,9 @@
 <?php
 include('server.php');
+checkSession();
+if(!isset($_SESSION['email'])){
+	header('location: index.php');
+  }
 session_destroy();
 if (ini_get("session.use_cookies")) {
 	$params = session_get_cookie_params();

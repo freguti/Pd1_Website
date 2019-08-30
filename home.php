@@ -1,7 +1,11 @@
 <?php include('server.php');
+	checkCookie();
 	checkHttps();
 	checkSession();
-	checkCookie();
+	if(!isset($_SESSION['email'])){
+		header('location: index.php');
+	  }
+	
 	$giorno[0] = 'Lunedì';
 	$giorno[1] = 'Martedì';
 	$giorno[2] = 'Mercoledì';
@@ -55,7 +59,6 @@
 				}
 				?>
 			</table>
-
 		</div> 
 	</div>	 
 	</div>  
@@ -63,6 +66,10 @@
 
     
 	<script type="text/javascript">
+		function OnClickOk(){
+			return true;
+		}
+
 		$.ajax({
 			url: "server.php",
 			data: "getcolors",
@@ -75,8 +82,6 @@
 				$("#div_" + idx).html(obj[0] + " prenotato il: " + obj[1]);
 		});
 		$('.Booked').mouseover(function(){
-  			//var email = $(this).attr("email");
-			//var DataOra = $(this).attr("ora_pen");
 			var Cell = $(this).attr("id");
 			Cell = Cell.split("_")[1];
 			$("#div_" + Cell).attr("hidden",false);
@@ -86,8 +91,38 @@
 			Cell = Cell.split("_")[1];
 			$("#div_" + Cell).attr("hidden",true);
 		});
+
+		$('.my_cell:not(.Booked)').click(function(){
+			var clickedCell = $(this).attr("id");
+			$('#'+clickedCell).toggleClass('wannaBeBooked');
 		});
 
-
-
+		});
+		var sequence = '00';
+		$('#btnbook').click(function(){
+			$('.wannaBeBooked').each(function(){
+				var SortedCell = $(this).attr("id");
+				sequence = sequence + '_' + SortedCell.split("_")[1] ;
+			});
+			//alert(sequence);
+			$.ajax({
+				url: "server.php",
+				data: {postfunctions: 'postclick', arguments: sequence },
+				type: "POST"
+			}).done(function(data){
+				sequence = '00';
+				alert(data);
+				if(data == '-1'){
+					alert("session expired");
+					window.location.href = "index.php";
+				}
+				else
+				{
+					alert(data);
+					window.location.href = "home.php";
+				}
+			});
+		});
+		
+		
 	</script>

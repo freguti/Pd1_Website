@@ -106,6 +106,20 @@ if(isset($_GET['getcolors'])){
 	mysqli_close($db);
 	echo json_encode($patient);
 }
+
+if(isset($_POST['postfunctions'])){
+	if($_POST['postfunctions'] == 'postclick')
+	{
+		if(!checkSession()){echo '-1'; exit();}
+		$db = dbConnection();
+		
+		mysqli_close($db);
+		echo 'prenotazione effettuata con successo';
+		echo 'uno o più slot non sono disponibili';
+		
+		exit();
+	}
+}
 /*
 non va con l'ajax. forse a volte serve per forza cosi
 
