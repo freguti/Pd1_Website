@@ -46,8 +46,8 @@
 						else if($j == 0)
 							echo "<td class='my_cell_l' id='cell_$i$j'>  $ora_inizio.00 </br> - </br>$ora_fine.00 </td>";
 						else 
-							echo "<td class='my_cell' id='cell_$i$j'>  <div id='div_$i$j' hidden='true'></td>";
-
+							echo "<td class='my_cell' id='cell_$i$j'>  <div id='div_$i$j'></td>";
+							//ho tolto hidden='true' al div (come lo vuole il prof) 
 					}
 					if ($i != 0){
 						$ora_inizio++;
@@ -65,7 +65,8 @@
 
     
 	<script type="text/javascript">
-		$.ajax({
+	//QUESTO è QUELLO BELLO E OTTIMALE
+	/*	$.ajax({
 			url: "server.php",
 			data: "getcolors",
 			type: "GET"
@@ -89,7 +90,53 @@
 			$("#div_" + Cell).attr("hidden",true);
 		});
 		});
+	*/	
+	var loaded = [];
+	//QUESTO è COME LO VUOLE IL PROF
+	$.ajax({
+			url: "server.php",
+			data: "getcolors",
+			type: "GET"
+		}).done(function(obj){
+			$.each(JSON.parse(obj), function(idx, obj){
+				$('#cell_' + idx).addClass("Booked");
+				loaded[idx] = false;
+				//$('#cell_' + idx).attr("email" , obj[0]);
+				//$('#cell_' + idx).attr("ora_pen" , obj[1]);	
+				//$("#div_" + idx).html(obj[0] + " prenotato il: " + obj[1]);
+		});
+		$('.Booked').mouseover(function(){
+  			//var email = $(this).attr("email");
+			//var DataOra = $(this).attr("ora_pen");
+			var Cell = $(this).attr("id");
+			Cell = Cell.split("_")[1];
+			if(!loaded[parseInt(Cell)]){
+				loaded[parseInt(Cell)] = true;
+				$.ajax({
+				url: "server.php",
+				data: {postfunctions: 'postemail', arguments: Cell },
+				async: false,
+				type: "POST"
+				}).done(function(obj){
+					$.each(JSON.parse(obj), function(idx, obj){
+					//$("#div_" + idx).attr("hidden",false);
+					//alert(idx);
+						$("#div_" + idx).html(obj[0] + " prenotato il: " + obj[1]);
+						
+					
+					});
+				});
+			}
+		});
+		$('.Booked').mouseleave(function(){
+			var Cell = $(this).attr("id");
+			Cell = Cell.split("_")[1];
+			//$("#div_" + Cell).attr("hidden",true);
+			$("#div_" + Cell).empty();
+			loaded[parseInt(Cell)] = false;
 
+		});
+		});
 
 
 	</script>

@@ -107,6 +107,38 @@ if(isset($_GET['getcolors'])){
 	echo json_encode($patient);
 }
 
+//COME LO VUOLE IL PROF, PER TORNARE A QUELLO OTTIMALE BASTA CANELLARE QUESTO E FARE DA FRONT-END
+if(isset($_POST['postfunctions'])){
+	if($_POST['postfunctions'] == 'postemail')
+	$db = dbConnection();
+	mysqli_autocommit($db,false);
+	$cell = mysqli_real_escape_string($db, $_POST['arguments']);
+	$query = "SELECT * FROM booking WHERE DataOra = " . $cell;
+	$result = mysqli_query($db, $query);
+	$patient = array();
+		while($record = mysqli_fetch_array($result))
+		{
+			$patient[$record['DataOra']] = [$record['Utente'],$record['DataOraPren']];
+		}
+		mysqli_autocommit($db,true);	
+	mysqli_close($db);
+	echo json_encode($patient);
+}
+
+/*
+	if($_POST['postfunctions'] == 'postemail')
+	$db = dbConnection();
+	mysqli_autocommit($db,false);
+	$cell = mysqli_real_escape_string($db, $_POST['arguments']);
+	$query = "SELECT * FROM booking WHERE DataOra = " . $cell;
+	$result = mysqli_fetch_assoc(mysqli_query($db, $query));
+	echo $result['email'] + ' ' + $result['DataOraPren'];	
+	mysqli_autocommit($db,true);	
+	mysqli_close($db);
+	exit();
+*/
+
+
 if(isset($_POST['postfunctions'])){
 	if($_POST['postfunctions'] == 'postclick')
 	{
@@ -138,7 +170,7 @@ if(isset($_POST['postfunctions'])){
 		else
 		{
 			date_default_timezone_set('Europe/Rome');
-			$time = date("Y-m-d h:m:s");
+			$time = date("Y-m-d H:i:s \G\M\T");
 			 
 			for($i = 1; $i < sizeof($cells);$i++)
 			{
