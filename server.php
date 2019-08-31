@@ -112,10 +112,50 @@ if(isset($_POST['postfunctions'])){
 	{
 		if(!checkSession()){echo '-1'; exit();}
 		$db = dbConnection();
-		
+		$seq = mysqli_real_escape_string($db, $_POST['arguments']);
+		$cells = explode("_" , $seq);
+		if ($cells[0] != "00")
+		{
+			echo "errore nella stringa di prenotazione";
+			mysqli_close($db);
+			exit();
+		}
+		mysqli_autocommit($db,false);
+		$query = "SELECT * FROM booking WHERE ";
+
+		for($i = 1; $i < sizeof($cells);$i++)
+		{
+			$query .= ' DataOra = ' . $cells[$i];
+			if($i+1 < sizeof($cells))
+				$query .= ' OR';
+		}
+		//eseguo il lock della tabella, non so se mi blocca anche la lettura
+		mysqli_query($db,"SELECT * FROM booking FOR UPDATE OF booking");
+		$results = mysqli_query($db, $query);
+		if(mysqli_num_rows($results) >= 1){
+			echo "Slot occupato";
+		}
+		else
+		{
+			date_default_timezone_set('Europe/Rome');
+			$time = date("Y-m-d h:m:s");
+			 
+			for($i = 1; $i < sizeof($cells);$i++)
+			{
+				$query = "INSERT INTO booking (DataOra,Utente,DataOraPren ) VALUES (";
+				//$query = "INSERT INTO booking VALUES (";				
+				$query .=  $cells[$i] . ", '" . $_SESSION['email'] . "', '" . $time . "')";
+				if(!mysqli_query($db, $query)){
+					echo($query);
+					mysqli_autocommit($db,true);
+					mysqli_close($db);
+					exit();
+				}
+			}
+			echo "OK";
+		}
+		mysqli_autocommit($db,true);
 		mysqli_close($db);
-		echo 'prenotazione effettuata con successo';
-		echo 'uno o più slot non sono disponibili';
 		
 		exit();
 	}

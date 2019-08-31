@@ -6,11 +6,11 @@
 		header('location: index.php');
 	  }
 	
-	$giorno[0] = 'Lunedì';
-	$giorno[1] = 'Martedì';
-	$giorno[2] = 'Mercoledì';
-	$giorno[3] = 'Giovedì';
-	$giorno[4] = 'Venerdì';
+	$giorno[1] = 'Lunedì';
+	$giorno[2] = 'Martedì';
+	$giorno[3] = 'Mercoledì';
+	$giorno[4] = 'Giovedì';
+	$giorno[5] = 'Venerdì';
 	$ora_inizio = 8;
 	$ora_fine = 9;
 ?>
@@ -33,13 +33,14 @@
 
 	 	<div class="col-md-4 mydivform">
 		 <?php include('errors.php'); ?>
+		 <input type="hidden" value="<?php if(isset($_SESSION['email'])){ echo $_SESSION['email'];} ?>" id="session">
 	 		<table>
 				<?php
 				for ($i=0;$i < 10;$i++)
 				{
 					echo "<tr>";
 					
-					for($j=0;$j < 5;$j++)
+					/*for($j=0;$j < 5;$j++)
 					{
 						if ($i == 0)
 						{
@@ -50,6 +51,20 @@
 							echo "<td class='my_cell' id='cell_$i$j'> dalle $ora_inizio.00 alle $ora_fine.00 <div id='div_$i$j' hidden='true'></td>";
 							
 						}
+					}*/
+					for($j=0;$j < 6;$j++)
+					{
+						if($i == 0 && $j == 0)
+							echo "<td class='my_cell_h' id='cell_$i$j'>  </td>";
+						else if ($i == 0)
+						{
+							echo "<td class='my_cell_h' id='cell_$i$j'> $giorno[$j] </td>";
+						}
+						else if($j == 0)
+							echo "<td class='my_cell_l' id='cell_$i$j'>  $ora_inizio.00 </br> - </br>$ora_fine.00 </td>";
+						else 
+							echo "<td class='my_cell' id='cell_$i$j'>  <div id='div_$i$j' hidden='true'></td>";
+
 					}
 					if ($i != 0){
 						$ora_inizio++;
@@ -111,7 +126,7 @@
 				type: "POST"
 			}).done(function(data){
 				//sequence = '00';
-				alert(data);
+				//alert(data);
 				if(data == '-1'){
 					alert("session expired");
 					window.location.href = "index.php";

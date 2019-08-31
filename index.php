@@ -2,11 +2,11 @@
 	//checkHttps();
 	//checkSession();
 	checkCookie();
-	$giorno[0] = 'Lunedì';
-	$giorno[1] = 'Martedì';
-	$giorno[2] = 'Mercoledì';
-	$giorno[3] = 'Giovedì';
-	$giorno[4] = 'Venerdì';
+	$giorno[1] = 'Lunedì';
+	$giorno[2] = 'Martedì';
+	$giorno[3] = 'Mercoledì';
+	$giorno[4] = 'Giovedì';
+	$giorno[5] = 'Venerdì';
 	$ora_inizio = 8;
 	$ora_fine = 9;
 ?>
@@ -35,17 +35,19 @@
 				{
 					echo "<tr>";
 					
-					for($j=0;$j < 5;$j++)
+					for($j=0;$j < 6;$j++)
 					{
-						if ($i == 0)
+						if($i == 0 && $j == 0)
+							echo "<td class='my_cell_h' id='cell_$i$j'>  </td>";
+						else if ($i == 0)
 						{
 							echo "<td class='my_cell_h' id='cell_$i$j'> $giorno[$j] </td>";
 						}
-						else
-						{
-							echo "<td class='my_cell' id='cell_$i$j'> dalle $ora_inizio.00 alle $ora_fine.00 <div id='div_$i$j' hidden='true'></td>";
-							
-						}
+						else if($j == 0)
+							echo "<td class='my_cell_l' id='cell_$i$j'>  $ora_inizio.00 </br> - </br>$ora_fine.00 </td>";
+						else 
+							echo "<td class='my_cell' id='cell_$i$j'>  <div id='div_$i$j' hidden='true'></td>";
+
 					}
 					if ($i != 0){
 						$ora_inizio++;

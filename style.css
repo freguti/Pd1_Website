@@ -74,6 +74,12 @@ table,tr,td{
     text-align: center;
 }
 
+.my_cell_l{
+    width: 50px;
+    height:100px;
+    text-align: center;
+}
+
 .Booked{
     background-color: red;
 }
