@@ -110,19 +110,21 @@ if(isset($_GET['getcolors'])){
 //COME LO VUOLE IL PROF, PER TORNARE A QUELLO OTTIMALE BASTA CANELLARE QUESTO E FARE DA FRONT-END
 if(isset($_POST['postfunctions'])){
 	if($_POST['postfunctions'] == 'postemail')
-	$db = dbConnection();
-	mysqli_autocommit($db,false);
-	$cell = mysqli_real_escape_string($db, $_POST['arguments']);
-	$query = "SELECT * FROM booking WHERE DataOra = " . $cell;
-	$result = mysqli_query($db, $query);
-	$patient = array();
-		while($record = mysqli_fetch_array($result))
-		{
-			$patient[$record['DataOra']] = [$record['Utente'],$record['DataOraPren']];
-		}
-		mysqli_autocommit($db,true);	
-	mysqli_close($db);
-	echo json_encode($patient);
+	{
+		$db = dbConnection();
+		mysqli_autocommit($db,false);
+		$cell = mysqli_real_escape_string($db, $_POST['arguments']);
+		$query = "SELECT * FROM booking WHERE DataOra = " . $cell;
+		$result = mysqli_query($db, $query);
+		$patient = array();
+			while($record = mysqli_fetch_array($result))
+			{
+				$patient[$record['DataOra']] = [$record['Utente'],$record['DataOraPren']];
+			}
+			mysqli_autocommit($db,true);	
+		mysqli_close($db);
+		echo json_encode($patient);
+	}
 }
 
 /*
