@@ -39,19 +39,6 @@
 				for ($i=0;$i < 10;$i++)
 				{
 					echo "<tr>";
-					
-					/*for($j=0;$j < 5;$j++)
-					{
-						if ($i == 0)
-						{
-							echo "<td class='my_cell_h' id='cell_$i$j'> $giorno[$j] </td>";
-						}
-						else
-						{
-							echo "<td class='my_cell' id='cell_$i$j'> dalle $ora_inizio.00 alle $ora_fine.00 <div id='div_$i$j' hidden='true'></td>";
-							
-						}
-					}*/
 					for($j=0;$j < 6;$j++)
 					{
 						if($i == 0 && $j == 0)
@@ -81,44 +68,17 @@
 
     
 	<script type="text/javascript">
-		/*
-		$.ajax({
-			url: "server.php",
-			data: "getcolors",
-			type: "GET"
-		}).done(function(obj){
-			$.each(JSON.parse(obj), function(idx, obj){
-				$('#cell_' + idx).addClass("Booked");
-				$('#cell_' + idx).attr("email" , obj[0]);
-				$('#cell_' + idx).attr("ora_pen" , obj[1]);	
-				$("#div_" + idx).html(obj[0] + " prenotato il: " + obj[1]);
-		});
-		$('.Booked').mouseover(function(){
-			var Cell = $(this).attr("id");
-			Cell = Cell.split("_")[1];
-			$("#div_" + Cell).attr("hidden",false);
-		});
-		$('.Booked').mouseleave(function(){
-			var Cell = $(this).attr("id");
-			Cell = Cell.split("_")[1];
-			$("#div_" + Cell).attr("hidden",true);
-		});
 
-		$('.my_cell:not(.Booked)').click(function(){
-			var clickedCell = $(this).attr("id");
-			$('#'+clickedCell).toggleClass('wannaBeBooked');
-		});
-
-		});
-		*/
 	var loaded = [];
-	//QUESTO è COME LO VUOLE IL PROF
 	$.ajax({
 			url: "server.php",
 			data: "getcolors",
 			type: "GET"
 		}).done(function(obj){
 			$.each(JSON.parse(obj), function(idx, obj){
+				if($('#session').val() == obj[0])
+					$('#cell_' + idx).addClass("MyBook");
+				
 				$('#cell_' + idx).addClass("Booked");
 				loaded[idx] = false;
 		});
@@ -142,7 +102,6 @@
 		$('.Booked').mouseleave(function(){
 			var Cell = $(this).attr("id");
 			Cell = Cell.split("_")[1];
-			//$("#div_" + Cell).attr("hidden",true);
 			$("#div_" + Cell).empty();
 			loaded[parseInt(Cell)] = false;
 

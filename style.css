@@ -84,6 +84,9 @@ table,tr,td{
     background-color: red;
 }
 
+.MyBook.Booked{
+    background-color: orange;
+}
 .nav-item{
     margin-top: 5px;
 }
