@@ -127,19 +127,6 @@ if(isset($_POST['postfunctions'])){
 	}
 }
 
-/*
-	if($_POST['postfunctions'] == 'postemail')
-	$db = dbConnection();
-	mysqli_autocommit($db,false);
-	$cell = mysqli_real_escape_string($db, $_POST['arguments']);
-	$query = "SELECT * FROM booking WHERE DataOra = " . $cell;
-	$result = mysqli_fetch_assoc(mysqli_query($db, $query));
-	echo $result['email'] + ' ' + $result['DataOraPren'];	
-	mysqli_autocommit($db,true);	
-	mysqli_close($db);
-	exit();
-*/
-
 
 if(isset($_POST['postfunctions'])){
 	if($_POST['postfunctions'] == 'postclick')
@@ -165,9 +152,13 @@ if(isset($_POST['postfunctions'])){
 		}
 		//eseguo il lock della tabella, non so se mi blocca anche la lettura
 		mysqli_query($db,"SELECT * FROM booking FOR UPDATE OF booking");
+		
+		
 		$results = mysqli_query($db, $query);
+		//if(strcmp($_SESSION['email'],"c@c.c")==0)
+		//sleep(5);
 		if(mysqli_num_rows($results) >= 1){
-			echo "Slot occupato";
+			echo "Uno o più orari sono stati prenotati";
 		}
 		else
 		{
@@ -186,7 +177,7 @@ if(isset($_POST['postfunctions'])){
 					exit();
 				}
 			}
-			echo "OK";
+			echo "Prenotazione avvenuta con successo";
 		}
 		mysqli_autocommit($db,true);
 		mysqli_close($db);
@@ -194,21 +185,18 @@ if(isset($_POST['postfunctions'])){
 		exit();
 	}
 }
-/*
-non va con l'ajax. forse a volte serve per forza cosi
 
-if(isset($_POST['postfunctions'])){
-	$function = $_POST['postfunctions'];
-	$string = "";
-	switch($function){
-		case 'user_register':
-			mysqli_query($db, 'INSERT INTO users VALUES ("register","user")');		
-		//header('location: index.php');
-		break;
-		default:
-	}	
+if(isset($_POST['posterase'])){
+	if(!checkSession()){echo '-1'; exit();}
+	$db = dbConnection();
+	mysqli_autocommit($db,false);
+	mysqli_query($db,"SELECT * FROM booking FOR UPDATE OF booking");
+	
+	$results = mysqli_query($db, $query);
+	mysqli_autocommit($db,true);
+	mysqli_close($db);
 }
-*/
+
 function dbConnection()
 {
     $db = mysqli_connect("localhost", "root" , "" ,"sitopd1");

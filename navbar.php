@@ -4,7 +4,7 @@
     <ul class="navbar-nav">
     	<?php 
     		if(isset($_SESSION['email'])){
-      		echo "
+			  echo "
             <li class='nav-item'>
               <a href='logout.php' class='myelement'>Logout</a>
 			</li>
@@ -16,7 +16,10 @@
             </li>
       		";
     		} else {
-    			echo "
+				echo "
+				<li class='nav-item'>
+				<a href='index.php' class='myelement'>Pagina Principale</a>
+			  	</li>
     			<li class='nav-item'>
       		  		<a href='login.php' class='myelement'>Login</a>
       			</li>

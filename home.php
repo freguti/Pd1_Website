@@ -120,7 +120,6 @@
 				var SortedCell = $(this).attr("id");
 				sequence = sequence + '_' + SortedCell.split("_")[1] ;
 			});
-			alert(sequence);
 			$.ajax({
 				url: "server.php",
 				data: {postfunctions: 'postclick', arguments: sequence },
@@ -138,5 +137,22 @@
 			});
 		});
 		
+		$('#btnerase').click(function(){
+			$.ajax({
+				url: "server.php",
+				data: "posterase",
+				type: "POST"
+			}).done(function(data){
+				if(data == '-1'){
+					alert("session expired");
+					window.location.href = "index.php";
+				}
+				else
+				{
+					alert(data);
+					window.location.href = "home.php";
+				}
+			});
+		})
 		
 	</script>

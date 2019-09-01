@@ -1,6 +1,6 @@
 <?php include('server.php');
     checkHttps();
-    //checkSession();
+    checkSession();
 	checkCookie();
 ?>
 
