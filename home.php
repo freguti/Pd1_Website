@@ -14,7 +14,7 @@
 	$ora_inizio = 8;
 	$ora_fine = 9;
 ?>
-
+<!DOCTYPE html>
 <html>
 	<head>
 		  <link href="./style.css" rel="stylesheet" type="text/css">
@@ -110,6 +110,11 @@
 		$('.my_cell:not(.Booked)').click(function(){
 			var clickedCell = $(this).attr("id");
 			$('#'+clickedCell).toggleClass('wannaBeBooked');
+			$.ajax({
+				url: "server.php",
+				data: 'refreshsession',
+				type: "POST"
+				})
 		});
 
 		});

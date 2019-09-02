@@ -13,7 +13,7 @@
 	$ora_inizio = 8;
 	$ora_fine = 9;
 ?>
-
+<!DOCTYPE html>
 <html>
 	<head>
 		  <link href="./style.css" rel="stylesheet" type="text/css">
@@ -95,8 +95,6 @@
 				type: "POST"
 				}).done(function(obj){
 					$.each(JSON.parse(obj), function(idx, obj){
-					//$("#div_" + idx).attr("hidden",false);
-					//alert(idx);
 						$("#div_" + idx).html(obj[0] + " prenotato il: " + obj[1]);
 						
 					

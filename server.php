@@ -22,8 +22,8 @@ if(isset($_POST['register_user'])){
 		try{
 			$password = md5($password);
 			mysqli_autocommit($db, false);
-			mysqli_query($db, "SELECT * FROM users FOR UPDATE OF users");
-			
+			//mysqli_query($db, "SELECT * FROM users FOR UPDATE OF users");
+			mysqli_query($db, "SELECT * FROM users FOR UPDATE");
 			$check_user_query = "SELECT * FROM users WHERE email='$email' LIMIT 1";
 			$user = mysqli_fetch_assoc(mysqli_query($db, $check_user_query));
 			if($user){  //se esiste già
@@ -72,7 +72,9 @@ if(isset($_POST['login_btn'])){
 	if(sizeof($errors) == 0)
 	{
 		$password = md5($password);
-		mysqli_query($db, "SELECT * FROM users FOR UPDATE OF users"); //non so nemmeno se c'è bisogno di loccare in sola lettura, nessuno mi cambia i record
+		//mysqli_query($db, "SELECT * FROM users FOR UPDATE OF users"); 
+		mysqli_autocommit($db, false);
+		mysqli_query($db, "SELECT * FROM users FOR UPDATE"); 		
 		$select_user = "SELECT * FROM users WHERE email='$email' AND password='$password' ";
 
 		$results = mysqli_query($db, $select_user);
@@ -81,8 +83,10 @@ if(isset($_POST['login_btn'])){
 			$_SESSION['time'] = time();
 			setcookie("user", $email, time() + 120, "/");
 			$_SESSION['success'] = "You are now logged in";
+			mysqli_autocommit($db, true);
 			mysqli_close($db);
 			header('location: home.php'); //redirect a index.php
+
 		}
 		else
 		{
@@ -107,7 +111,6 @@ if(isset($_GET['getcolors'])){
 	echo json_encode($patient);
 }
 
-//COME LO VUOLE IL PROF, PER TORNARE A QUELLO OTTIMALE BASTA CANELLARE QUESTO E FARE DA FRONT-END
 if(isset($_POST['postfunctions'])){
 	if($_POST['postfunctions'] == 'postemail')
 	{
@@ -150,13 +153,11 @@ if(isset($_POST['postfunctions'])){
 			if($i+1 < sizeof($cells))
 				$query .= ' OR';
 		}
-		//eseguo il lock della tabella, non so se mi blocca anche la lettura
-		mysqli_query($db,"SELECT * FROM booking FOR UPDATE OF booking");
+		//mysqli_query($db,"SELECT * FROM booking FOR UPDATE OF booking");
+		mysqli_query($db,"SELECT * FROM booking FOR UPDATE");
 		
 		
 		$results = mysqli_query($db, $query);
-		//if(strcmp($_SESSION['email'],"c@c.c")==0)
-		//sleep(5);
 		if(mysqli_num_rows($results) >= 1){
 			echo "Uno o più orari sono stati prenotati";
 		}
@@ -191,7 +192,8 @@ if(isset($_POST['posterase'])){
 		if(!checkSession()){echo '-1'; exit();}
 		$db = dbConnection();
 		mysqli_autocommit($db,false);
-		if(!mysqli_query($db,"SELECT * FROM booking FOR UPDATE OF booking")) {throw new Exception("Error Lock", 1);}
+		//if(!mysqli_query($db,"SELECT * FROM booking FOR UPDATE OF booking")) {throw new Exception("Error Lock", 1);}
+		if(!mysqli_query($db,"SELECT * FROM booking FOR UPDATE")) {throw new Exception("Error Lock", 1);}
 		$query = 'SELECT * FROM booking WHERE  Utente = "' . $_SESSION["email"] . '" ORDER BY DataOraPren DESC LIMIT 1';
 		$record = mysqli_fetch_array(mysqli_query($db, $query));
 		$query = 'DELETE FROM booking WHERE DataOraPren = "' . $record['DataOraPren'] . '" AND Utente = "' . $_SESSION["email"] . '"';
@@ -208,6 +210,14 @@ if(isset($_POST['posterase'])){
 		mysqli_close($db);
 		return false;
 	}
+}
+
+if(isset($_POST['refreshsession'])){
+	checkSession();
+	if(!isset($_SESSION['email'])){
+		header('location: index.php');
+	  }
+	exit();
 }
 
 function dbConnection()
