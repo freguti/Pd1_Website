@@ -1,7 +1,10 @@
 <?php include('server.php');
-	//checkHttps();
+	checkHttps();
 	//checkSession();
 	checkCookie();
+	if(isset($_SESSION['email'])){
+		header('location: home.php');
+	}
 	$giorno[1] = 'Lunedì';
 	$giorno[2] = 'Martedì';
 	$giorno[3] = 'Mercoledì';
@@ -15,7 +18,7 @@
 	<head>
 		  <link href="./style.css" rel="stylesheet" type="text/css">
 		  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-		  <script src= "http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript"> </script>
+		  <script src= "jquery-3.3.1.min.js"> </script>
  	</head>
 
  	<body>
@@ -64,35 +67,8 @@
     </body>
 
     
-	<script type="text/javascript">
-	//QUESTO è QUELLO BELLO E OTTIMALE
-	/*	$.ajax({
-			url: "server.php",
-			data: "getcolors",
-			type: "GET"
-		}).done(function(obj){
-			$.each(JSON.parse(obj), function(idx, obj){
-				$('#cell_' + idx).addClass("Booked");
-				$('#cell_' + idx).attr("email" , obj[0]);
-				$('#cell_' + idx).attr("ora_pen" , obj[1]);	
-				$("#div_" + idx).html(obj[0] + " prenotato il: " + obj[1]);
-		});
-		$('.Booked').mouseover(function(){
-  			//var email = $(this).attr("email");
-			//var DataOra = $(this).attr("ora_pen");
-			var Cell = $(this).attr("id");
-			Cell = Cell.split("_")[1];
-			$("#div_" + Cell).attr("hidden",false);
-		});
-		$('.Booked').mouseleave(function(){
-			var Cell = $(this).attr("id");
-			Cell = Cell.split("_")[1];
-			$("#div_" + Cell).attr("hidden",true);
-		});
-		});
-	*/	
+	<script type="text/javascript">	
 	var loaded = [];
-	//QUESTO è COME LO VUOLE IL PROF
 	$.ajax({
 			url: "server.php",
 			data: "getcolors",

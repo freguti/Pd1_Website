@@ -2,18 +2,18 @@
 	checkCookie();
 	checkHttps();
 	//checkSession();
-	//if(!isset($_SESSION['email'])){
-	//	header('location: index.php');
-	//  }
+	if(isset($_SESSION['email'])){
+		header('location: home.php');
+	  }
 	
 
 ?>
-
+<!DOCTYPE html>
 <html>
 	<head>
 		  <link href="./style.css" rel="stylesheet" type="text/css">
 		  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-		  <script src= "http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript"> </script>
+		  <script src= "jquery-3.3.1.min.js"> </script>
  	</head>
 
  	<body>

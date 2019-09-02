@@ -121,7 +121,7 @@ if(isset($_POST['postfunctions'])){
 			{
 				$patient[$record['DataOra']] = [$record['Utente'],$record['DataOraPren']];
 			}
-			mysqli_autocommit($db,true);	
+		mysqli_autocommit($db,true);	
 		mysqli_close($db);
 		echo json_encode($patient);
 	}
@@ -135,7 +135,7 @@ if(isset($_POST['postfunctions'])){
 		$db = dbConnection();
 		$seq = mysqli_real_escape_string($db, $_POST['arguments']);
 		$cells = explode("_" , $seq);
-		if ($cells[0] != "00")
+		if ($cells[0] != "00" || sizeof($cells) <= 1)
 		{
 			echo "errore nella stringa di prenotazione";
 			mysqli_close($db);
@@ -187,14 +187,27 @@ if(isset($_POST['postfunctions'])){
 }
 
 if(isset($_POST['posterase'])){
-	if(!checkSession()){echo '-1'; exit();}
-	$db = dbConnection();
-	mysqli_autocommit($db,false);
-	mysqli_query($db,"SELECT * FROM booking FOR UPDATE OF booking");
-	
-	$results = mysqli_query($db, $query);
-	mysqli_autocommit($db,true);
-	mysqli_close($db);
+	try{
+		if(!checkSession()){echo '-1'; exit();}
+		$db = dbConnection();
+		mysqli_autocommit($db,false);
+		if(!mysqli_query($db,"SELECT * FROM booking FOR UPDATE OF booking")) {throw new Exception("Error Lock", 1);}
+		$query = 'SELECT * FROM booking WHERE  Utente = "' . $_SESSION["email"] . '" ORDER BY DataOraPren DESC LIMIT 1';
+		$record = mysqli_fetch_array(mysqli_query($db, $query));
+		$query = 'DELETE FROM booking WHERE DataOraPren = "' . $record['DataOraPren'] . '" AND Utente = "' . $_SESSION["email"] . '"';
+		if(!mysqli_query($db, $query)) {throw new Exception("Error Processing Request", 1);}
+		mysqli_autocommit($db,true);
+		mysqli_close($db);
+		echo $record['DataOraPren'];
+	}
+	catch (Exception $e)
+	{
+		mysqli_rollback($db);
+		echo "Rollback ".$e->getMessage();
+		mysqli_autocommit($db, true);
+		mysqli_close($db);
+		return false;
+	}
 }
 
 function dbConnection()
