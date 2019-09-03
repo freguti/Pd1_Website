@@ -15,7 +15,7 @@ if(isset($_POST['register_user'])){
 	if(strcmp($confirm,$password) != 0){ array_push($errors, "The two password are not equal"); }
 	$special_chars = preg_replace('/[A-Za-z0-9]/', '', $password);
 	$numbers = preg_replace('/[^0-9]/', '', $password);
-	if(strlen( $password) < 3 || strlen($special_chars) < 2 || strlen($numbers) < 1) { array_push($errors, "Password invalid"); }
+	if(strlen( $password) < 4 || strlen($special_chars) < 2 || strlen($numbers) < 1) { array_push($errors, "Password invalid"); }
 	
 	if(sizeof($errors) == 0)
 	{
@@ -200,7 +200,7 @@ if(isset($_POST['posterase'])){
 		if(!mysqli_query($db, $query)) {throw new Exception("Error Processing Request", 1);}
 		mysqli_autocommit($db,true);
 		mysqli_close($db);
-		echo $record['DataOraPren'];
+		echo "Booked erased successfully";
 	}
 	catch (Exception $e)
 	{

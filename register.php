@@ -101,7 +101,7 @@
 			}
 		$("#password").on('change keyup paste mouseup',function(){
 			var psw =$("#password").val();	
-			if(psw.length < 3){
+			if(psw.length < 4){
 				$("#strength").html("Debole");
 				$("#strength").removeClass('strong');
 				$("#strength").removeClass('medium');
